@@ -1,0 +1,55 @@
+/*
+   Fundacion Kinal
+   Centro educativo tecnico laboral kinal
+   Quinto perito
+   Quinto electronica
+   Codigo Tecnico: EB5AV
+   Curso: Taller de electronica digital y reparacion de computadoras I
+   Proyecto: Catálogo de Productos.
+   Dev:Oscar Maio Portillo Mus
+   Fecha: 19 de abril
+*/
+int ledPins[] = {2, 3, 4, 5, 6, 7, 8, 9};
+int switchPin1 = 10;
+int switchPin2 = 11;
+int switchState1 = LOW;
+int switchState2 = LOW;
+int speed = 500;
+
+void setup() {
+  for (int i = 0; i < 8; i++) {
+    pinMode(ledPins[i], OUTPUT);
+  }
+  pinMode(switchPin1, OUTPUT);
+  pinMode(switchPin2, OUTPUT);
+  Serial.begin(9600);
+}
+
+void loop() {
+  switchState1 = digitalRead(switchPin1);
+  switchState2 = digitalRead(switchPin2);
+  
+  if (switchState1 == HIGH) {
+    speed = 500;
+    Serial.println("Secuencia - velocidad 1");
+    performSequence();
+  }
+  else if (switchState2 == HIGH) {
+    speed = 1000;
+    Serial.println("Secuencia - velocidad 2");
+    performSequence();
+  }
+}
+
+void performSequence() {
+  for (int i = 0; i < 8; i++) {
+    digitalWrite(ledPins[i], HIGH);
+    delay(speed);
+    digitalWrite(ledPins[i], LOW);
+  }
+  for (int i = 7; i >= 0; i--) {
+    digitalWrite(ledPins[i], HIGH);
+    delay(speed);
+    digitalWrite(ledPins[i], LOW);
+  }
+}
