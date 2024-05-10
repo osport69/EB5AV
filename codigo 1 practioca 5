@@ -1,0 +1,64 @@
+/*
+   Fundacion Kinal
+   Centro educativo tecnico laboral kinal
+   Quinto perito
+   Quinto electronica
+   Codigo Tecnico: EB5AV
+   Curso: Taller de electronica digital y reparacion de computadoras I
+   Proyecto: Catálogo de Productos.
+   Dev:Oscar Mario Portillo Mus
+   Fecha: 10/05/2024
+*/
+void setup(){
+Serial.begin(9600);
+pinMode(2, OUTPUT);
+pinMode(3, OUTPUT);
+pinMode(4, OUTPUT);
+pinMode(5, OUTPUT);
+ 
+}
+void loop(){
+  secuencia();
+  conversion();
+  conversion_dos();
+}
+ 
+void conversion(){
+  float resultado;
+  resultado= 20*2.2046;
+  Serial.println(resultado);
+  delay(1000);
+}
+  void conversion_dos(){
+  float resultado;
+  resultado= 3.5*1000000;
+  Serial.println(resultado);
+  delay(1000);
+}
+  void secuencia(){
+  digitalWrite(2, HIGH);
+  digitalWrite(3, LOW);
+  digitalWrite(4, LOW);
+  digitalWrite(5, LOW);
+  delay(1000);
+  digitalWrite(2, HIGH);
+  digitalWrite(3, HIGH);
+  digitalWrite(4, LOW);
+  digitalWrite(5, LOW);
+  delay(1000);
+  digitalWrite(2, HIGH);
+  digitalWrite(3, LOW);
+  digitalWrite(4, HIGH);
+  digitalWrite(5, LOW);
+  delay(1000);
+  digitalWrite(2, HIGH);
+  digitalWrite(3, HIGH);
+  digitalWrite(4, HIGH);
+  digitalWrite(5, LOW);
+  delay(1000);
+  digitalWrite(2, HIGH);
+  digitalWrite(3, LOW);
+  digitalWrite(4, LOW);
+  digitalWrite(5, HIGH);
+  delay(1000);
+                  }
