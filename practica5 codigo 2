@@ -1,0 +1,198 @@
+/*
+   Fundacion Kinal
+   Centro educativo tecnico laboral kinal
+   Quinto perito
+   Quinto electronica
+   Codigo Tecnico: EB5AV
+   Curso: Taller de electronica digital y reparacion de computadoras I
+   Proyecto: Catálogo de Productos.
+   Dev:Oscar Mario Portillo Mus
+   Fecha: 10/05/2024
+
+int uwu = 3;
+int owo = 2;
+
+int c = 261;
+int d = 294;
+int e = 329;
+int f = 349;
+int g = 391;
+int gS = 415;
+int a = 440;
+int aS = 455;
+int b = 466;
+int cH = 523;
+int cSH = 554;
+int dH = 587;
+int dSH = 622;
+int eH = 659;
+int fH = 698;
+int fSH = 740;
+int gH = 783;
+int gSH = 830;
+int aH = 880;
+
+void setup()
+{
+  pinMode(owo, INPUT);
+  pinMode(uwu, OUTPUT);
+}
+
+void loop()
+{
+  if (digitalRead(owo) == HIGH)
+  {
+    tone(uwu, a, 500);
+    delay(550);
+    tone(uwu, a, 500);
+    delay(550);
+    tone(uwu, a, 500);
+    delay(550);
+    tone(uwu, f, 350);
+    delay(400);
+    tone(uwu, cH, 150);
+    delay(200);
+
+    tone(uwu, a, 500);
+    delay(550);
+    tone(uwu, f, 350);
+    delay(400);
+    tone(uwu, cH, 150);
+    delay(200);
+    tone(uwu, a, 1000);
+    delay(1050);
+
+    tone(uwu, eH, 500);
+    delay(550);
+    tone(uwu, eH, 500);
+    delay(550);
+    tone(uwu, eH, 500);
+    delay(550);
+    tone(uwu, fH, 350);
+    delay(400);
+    tone(uwu, cH, 150);
+    delay(200);
+
+    tone(uwu, gS, 500);
+    delay(550);
+    tone(uwu, f, 350);
+    delay(400);
+    tone(uwu, cH, 150);
+    delay(200);
+    tone(uwu, a, 1000);
+    delay(1050);
+
+    tone(uwu, aH, 500);
+    delay(550);
+    tone(uwu, a, 350);
+    delay(400);
+    tone(uwu, a, 150);
+    delay(200);
+    tone(uwu, aH, 500);
+    delay(550);
+    tone(uwu, gSH, 250);
+    delay(300);
+    tone(uwu, gH, 250);
+    delay(300);
+
+    tone(uwu, fSH, 175);
+    delay(225);
+    tone(uwu, fH, 175);
+    delay(225);
+    tone(uwu, fSH, 300);
+    delay(350);
+    delay(300);
+    tone(uwu, aS, 300);
+    delay(350);
+    tone(uwu, dSH, 550);
+    delay(600);
+    tone(uwu, dH, 300);
+    delay(350);
+    tone(uwu, cSH, 300);
+    delay(350);
+
+    // virtuosismo :)))
+
+    tone(uwu, cH, 175);
+    delay(225);
+    tone(uwu, b, 175);
+    delay(225);
+    tone(uwu, cH, 300);
+    delay(350);
+    delay(300);
+    tone(uwu, f, 175);
+    delay(225);
+    tone(uwu, gS, 550);
+    delay(600);
+    tone(uwu, f, 425);
+    delay(475);
+    tone(uwu, a, 175);
+    delay(225);
+
+    tone(uwu, cH, 500);
+    delay(550);
+    tone(uwu, a, 425);
+    delay(475);
+    tone(uwu, cH, 175);
+    delay(225);
+    tone(uwu, eH, 1000);
+    delay(1050);
+
+    tone(uwu, aH, 500);
+    delay(550);
+    tone(uwu, a, 350);
+    delay(400);
+    tone(uwu, a, 150);
+    delay(200);
+    tone(uwu, aH, 500);
+    delay(550);
+    tone(uwu, gSH, 250);
+    delay(300);
+    tone(uwu, gH, 250);
+    delay(300);
+
+    tone(uwu, fSH, 175);
+    delay(225);
+    tone(uwu, fH, 175);
+    delay(225);
+    tone(uwu, fSH, 300);
+    delay(350);
+    delay(300);
+    tone(uwu, aS, 300);
+    delay(350);
+    tone(uwu, dSH, 550);
+    delay(600);
+    tone(uwu, dH, 300);
+    delay(350);
+    tone(uwu, cSH, 300);
+    delay(350);
+
+    tone(uwu, cH, 175);
+    delay(225);
+    tone(uwu, b, 175);
+    delay(225);
+    tone(uwu, cH, 300);
+    delay(350);
+    delay(300);
+    tone(uwu, f, 300);
+    delay(350);
+    tone(uwu, gS, 550);
+    delay(600);
+    tone(uwu, f, 425);
+    delay(475);
+    tone(uwu, cH, 175);
+    delay(225);
+
+    tone(uwu, a, 500);
+    delay(550);
+    tone(uwu, f, 375);
+    delay(425);
+    tone(uwu, c, 175);
+    delay(225);
+    tone(uwu, a, 1000);
+    delay(1050);
+
+    delay(2000);
+  }
+}
+
