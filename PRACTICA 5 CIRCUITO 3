@@ -1,0 +1,68 @@
+/*
+   Fundacion Kinal
+   Centro educativo tecnico laboral kinal
+   Quinto perito
+   Quinto electronica
+   Codigo Tecnico: EB5AV
+   Curso: Taller de electronica digital y reparacion de computadoras I
+   Proyecto: Catálogo de Productos.
+   Dev:Oscar Mario Portillo Mus
+   Fecha: 10/05/2024
+*/
+#define Pin_Buzzer 6
+#define RELE 7
+
+const int A = 2;
+const int B = 3;
+const int C = 4;
+const int D = 5; 
+const int N = 4;
+const int SEGMENTOS[N] = {A, B, C, D};
+
+const int Digitos[10][N] = {
+    {0, 0, 0, 0}, 
+    {1, 0, 0, 0}, 
+    {0, 1, 0, 0}, 
+    {1, 1, 0, 0}, 
+    {0, 0, 1, 0}, 
+    {1, 0, 1, 0}, 
+    {0, 1, 1, 0}, 
+    {1, 1, 1, 0}, 
+    {0, 0, 0, 1}, 
+    {1, 0, 0, 1}  
+};
+
+int Detener = false; 
+void setup() {
+    pinMode(Pin_Buzzer, OUTPUT);
+    pinMode(RELE, OUTPUT);
+    digitalWrite(RELE, LOW);
+    for (int i = 0; i < N; i++) {
+        pinMode(SEGMENTOS[i], OUTPUT);
+        digitalWrite(SEGMENTOS[i], HIGH);
+    }
+}
+
+void print(int d) {
+    for (int i = 0; i < N; i++) {
+        digitalWrite(SEGMENTOS[i], Digitos[d][i]);
+    }
+}
+
+void loop() {
+    if (!Detener) {
+        for (int i = 9; i >= 0; i--) {
+            print(i);
+            delay(1000);
+        }
+
+        tone(Pin_Buzzer, 250);
+        digitalWrite(RELE, LOW);
+        delay(4000);
+        noTone(Pin_Buzzer);
+        digitalWrite(RELE, HIGH); 
+        Detener = true; 
+    } else {
+        Detener = false; 
+    }
+}
