@@ -1,0 +1,185 @@
+#include <Adafruit_NeoPixel.h>
+
+#define pin_trig 10
+#define pin_echo 11
+#define PINNEO 9
+#define NUMPIXELS 12
+
+enum {
+   verde,
+   rojo,
+};
+
+Adafruit_NeoPixel pixels(NUMPIXELS, PINNEO, NEO_GRB + NEO_KHZ800);
+
+#define A 2
+#define B 3
+#define C 4
+#define D 5
+#define E 6
+#define F 7
+#define G 8
+
+int personas = 0;
+float Medida;
+float Medida_Anterior = 0;
+
+float LecturaDistancia();
+void Aforo();
+void Display(int numero);
+void setColor(int color);
+void guionG();
+
+void setup() {
+  Serial.begin(9600);
+  pixels.begin();
+  pinMode(pin_trig, OUTPUT);
+  pinMode(pin_echo, INPUT);
+  pinMode(A, OUTPUT);
+  pinMode(B, OUTPUT);
+  pinMode(C, OUTPUT);
+  pinMode(D, OUTPUT);
+  pinMode(E, OUTPUT);
+  pinMode(F, OUTPUT);
+  pinMode(G, OUTPUT);
+}
+
+void loop() {
+  Medida = LecturaDistancia();
+  delay(100);
+  Aforo();
+  pixels.clear();
+}
+
+float LecturaDistancia() {
+  digitalWrite(pin_trig, LOW);
+  delayMicroseconds(2);
+  digitalWrite(pin_trig, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(pin_trig, LOW);
+
+  float sensor = pulseIn(pin_echo, HIGH);
+  float distancia = sensor / 59;
+
+  return distancia;
+}
+
+void Aforo() {
+  if (personas < 10) {
+    if (Medida >= 6 && Medida <= 10 && (Medida_Anterior < 6 || Medida_Anterior > 10)) {
+      personas++;
+    }
+    Medida_Anterior = Medida;
+    Display(personas);
+
+    if (personas < 10) {
+      setColor(verde);
+    } else if (personas == 10) {
+      setColor(rojo);
+    }
+  }
+}
+
+void Display(int numero) {
+  digitalWrite(A, LOW);
+  digitalWrite(B, LOW);
+  digitalWrite(C, LOW);
+  digitalWrite(D, LOW);
+  digitalWrite(E, LOW);
+  digitalWrite(F, LOW);
+
+  switch (numero) {
+    case 0:
+      digitalWrite(A, HIGH);
+      digitalWrite(B, HIGH);
+      digitalWrite(C, HIGH);
+      digitalWrite(D, HIGH);
+      digitalWrite(E, HIGH);
+      digitalWrite(F, HIGH);
+      break;
+    case 1:
+      digitalWrite(B, HIGH);
+      digitalWrite(C, HIGH);
+      break;
+    case 2:
+      digitalWrite(A, HIGH);
+      digitalWrite(B, HIGH);
+      digitalWrite(D, HIGH);
+      digitalWrite(E, HIGH);
+      digitalWrite(G, HIGH);
+      break;
+    case 3:
+      digitalWrite(A, HIGH);
+      digitalWrite(B, HIGH);
+      digitalWrite(C, HIGH);
+      digitalWrite(D, HIGH);
+      digitalWrite(G, HIGH);
+      break;
+    case 4:
+      digitalWrite(B, HIGH);
+      digitalWrite(C, HIGH);
+      digitalWrite(F, HIGH);
+      digitalWrite(G, HIGH);
+      break;
+    case 5:
+      digitalWrite(A, HIGH);
+      digitalWrite(C, HIGH);
+      digitalWrite(D, HIGH);
+      digitalWrite(F, HIGH);
+      digitalWrite(G, HIGH);
+      break;
+    case 6:
+      digitalWrite(A, HIGH);
+      digitalWrite(C, HIGH);
+      digitalWrite(D, HIGH);
+      digitalWrite(E, HIGH);
+      digitalWrite(F, HIGH);
+      digitalWrite(G, HIGH);
+      break;
+    case 7:
+      digitalWrite(A, HIGH);
+      digitalWrite(B, HIGH);
+      digitalWrite(C, HIGH);
+      break;
+    case 8:
+      digitalWrite(A, HIGH);
+      digitalWrite(B, HIGH);
+      digitalWrite(C, HIGH);
+      digitalWrite(D, HIGH);
+      digitalWrite(E, HIGH);
+      digitalWrite(F, HIGH);
+      digitalWrite(G, HIGH);
+      break;
+    case 9:
+      digitalWrite(A, HIGH);
+      digitalWrite(B, HIGH);
+      digitalWrite(C, HIGH);
+      digitalWrite(D, HIGH);
+      digitalWrite(F, HIGH);
+      digitalWrite(G, HIGH);
+      break;
+    default:
+      break;
+  }
+}
+
+void guionG() {
+  digitalWrite(A, LOW);
+  digitalWrite(B, LOW);
+  digitalWrite(C, LOW);
+  digitalWrite(D, LOW);
+  digitalWrite(E, LOW);
+  digitalWrite(F, LOW);
+  digitalWrite(G, HIGH);
+}
+
+void setColor(int color) {
+  for (int i = 0; i < NUMPIXELS; i++) {
+    if (color == verde) {
+      pixels.setPixelColor(i, pixels.Color(0, 255, 0));
+    } else if (color == rojo) {
+      pixels.setPixelColor(i, pixels.Color(255, 0, 0));
+    }
+  }
+  pixels.show();
+}
