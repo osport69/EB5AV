@@ -1,0 +1,181 @@
+#include <Servo.h>
+#include <Wire.h>
+#include <LiquidCrystal_I2C.h>
+
+const int buzzer = 8;
+const int buttonMode = 7;
+const int buttonServo = 6;
+const int buttonAuto = 5;
+const int sensorComida = A0;
+const int trigPin = 4;
+const int echoPin = 3;
+
+const int umbralComidaFull = 700;
+const int umbralComidaHalf = 400;
+const int umbralMascota = 30;
+
+Servo servoMotor;
+LiquidCrystal_I2C lcd(0x27, 16, 2);
+
+bool manualMode = false;
+bool autoMode = false;
+
+void setup() {
+  servoMotor.attach(9);
+  delay(100);
+  servoMotor.write(0);
+
+  pinMode(buzzer, OUTPUT);
+  pinMode(buttonMode, INPUT_PULLUP);
+  pinMode(buttonServo, INPUT_PULLUP);
+  pinMode(buttonAuto, INPUT_PULLUP);
+  pinMode(sensorComida, INPUT);
+
+  pinMode(trigPin, OUTPUT);
+  pinMode(echoPin, INPUT);
+
+  lcd.init();
+  lcd.backlight();
+  lcd.setCursor(0, 0);
+  lcd.print("Sistema Inicial");
+}
+
+void loop() {
+  if (digitalRead(buttonMode) == LOW) {
+    manualMode = true;
+    autoMode = false;
+    lcd.clear();
+    lcd.setCursor(0, 0);
+    lcd.print("Modo Manual Activo");
+    delay(500);
+  }
+
+  if (digitalRead(buttonAuto) == LOW) {
+    autoMode = true;
+    manualMode = false;
+    lcd.clear();
+    lcd.setCursor(0, 0);
+    lcd.print("Modo Automatico");
+    delay(500);
+  }
+
+  if (manualMode) {
+    if (digitalRead(buttonServo) == LOW) {
+      abrirServoManual();
+    }
+  }
+
+  if (autoMode) {
+    int nivelComida = analogRead(sensorComida);
+    long distanciaMascota = medirDistanciaMascota();
+    String estadoComida = clasificarNivelComida(nivelComida);
+    mostrarEstadoComida(estadoComida);
+
+    if (distanciaMascota > 0 && distanciaMascota <= umbralMascota) {
+      if (estadoComida.equals("Lleno")) {
+        lcd.clear();
+        lcd.setCursor(0, 0);
+        lcd.print("Mascota Detectada");
+        lcd.setCursor(0, 1);
+        lcd.print("Comida Disponible");
+        delay(5000);
+        lcd.clear();
+        lcd.setCursor(0, 0);
+        lcd.print("Modo Automatico");
+      }
+      else if (estadoComida.equals("Vacio")) {
+        lcd.clear();
+        lcd.setCursor(0, 0);
+        lcd.print("Mascota Detectada");
+        lcd.setCursor(0, 1);
+        lcd.print("Refillando...");
+        refillServo();
+        lcd.clear();
+        lcd.setCursor(0, 0);
+        lcd.print("Recarga Completa");
+        delay(5000);
+        lcd.clear();
+        lcd.setCursor(0, 0);
+        lcd.print("Modo Automatico");
+      }
+      else if (estadoComida.equals("Medio")) {
+        lcd.clear();
+        lcd.setCursor(0, 0);
+        lcd.print("Nivel Medio");
+        lcd.setCursor(0, 1);
+        lcd.print("Esperando...");
+        delay(5000);
+        lcd.clear();
+        lcd.setCursor(0, 0);
+        lcd.print("Modo Automatico");
+      }
+    }
+
+    delay(200);
+  }
+}
+
+long medirDistanciaMascota() {
+  digitalWrite(trigPin, LOW);
+  delayMicroseconds(2);
+  
+  digitalWrite(trigPin, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(trigPin, LOW);
+  
+  long duracion = pulseIn(echoPin, HIGH, 30000);
+  long distancia = duracion * 0.034 / 2;
+  
+  return distancia;
+}
+
+String clasificarNivelComida(int valorComida) {
+  if (valorComida <= umbralComidaHalf) {
+    return "Lleno";
+  }
+  else if (valorComida > umbralComidaHalf && valorComida <= umbralComidaFull) {
+    return "Medio";
+  }
+  else {
+    return "Vacio";
+  }
+}
+
+void mostrarEstadoComida(String estadoComida) {
+  lcd.clear();
+  lcd.setCursor(0, 0);
+  lcd.print("Nivel de comida:");
+  lcd.setCursor(0, 1);
+  lcd.print(estadoComida);
+}
+
+void abrirServoManual() {
+  lcd.clear();
+  lcd.setCursor(0, 0);
+  lcd.print("Bon appétit");
+  servoMotor.write(180);
+  tone(buzzer, 100);
+  delay(3000);
+  noTone(buzzer);
+  servoMotor.write(0);
+  lcd.clear();
+  lcd.setCursor(0, 0);
+  lcd.print("Modo Manual Activo");
+}
+
+void abrirServoAutomatico() {
+  servoMotor.write(180);
+  tone(buzzer, 100);
+  delay(3000);
+  noTone(buzzer);
+  servoMotor.write(0);
+}
+
+void refillServo() {
+  servoMotor.write(180);
+  tone(buzzer, 100);
+  delay(3000);
+  noTone(buzzer);
+  servoMotor.write(0);
+}
+
